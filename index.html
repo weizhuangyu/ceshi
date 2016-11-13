@@ -53,6 +53,30 @@
         }
 
     }
+    function emit(){
+        if(dia ===tatris[tatris.length-1]&&(pos.s == 1)){
+            for(var i=0;i<22 ;i++){
+                if((map[i]&pos.fk[3]) ===pos.fk[3]){
+                    map[i] = map[i] - pos.fk[3] ;
+                    break ;
+                }
+            }
+        }
+        if(dia ===tatris[tatris.length-1]&&(pos.s == 0)){
+            for(var i=21;i>=0 ;i--){
+                console.log(i);
+                if((map[i]&pos.fk[3]) !==pos.fk[3]){
+                    map[i] = map[i] + pos.fk[3] ;
+                    if(map[i] ===0xfff){
+                        map.splice(i,1), map.unshift(0x801);
+                    }
+                    break ;
+                }
+            }
+        }
+
+        update();
+    }
     function rotate(r){
         var f=dia[pos.s=(pos.s+r)%dia.length];
         for(var i=0; i<4; i++) {
