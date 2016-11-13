@@ -9,28 +9,57 @@
             font:25px/25px 宋体;
             background:#000;
             color:#9f9;
+            position: absolute;
+            top : 25px ;
             border:#999 20px ridge;
             text-shadow:2px 3px 1px #0f0 ;
+            margin-left: 25%;
+        }
+        p{
+            position: absolute;
+            top: 50px ;
+            left: 650px ;
+            width: 400px;
+            height: 150px;
+            border: 1px dashed red;
+            white-space: pre;
+        }
+        div#score{
+            position: absolute;
+            left: 52%;
+            top : 20px ;
         }
     </style>
 </head>
 <body>
+<div id="score">当前分数:&nbsp<span class="score" style="color:red">0</span>&nbsp分</div>
 <div id="box"></div>
+<p>
+    游戏帮助:
+    '上' : 方块旋转
+    '下' : 方块快速下降
+    '左' : 方块左移
+    '右' : 方块右移
+    'x' : 对于两个竖的方块:按一下减去一个堆积的方块
+          对于三个竖的方块:按一下加上一个堆积的方块
+</p>
 <script>
     var map=eval("["+Array(23).join("0x801,")+"0xfff]");
     var tatris=[[0x6600],[0x2222,0xf0],[0xc600,0x2640],[0x6c00,0x4620],[0x4460,0x2e0,0x6220,0x740],
         [0x2260,0xe20,0x6440,0x4700],[0x2620,0x720,0x2320,0x2700],[0x222,0x22]];
     var keycom={"38":"rotate(1)","40":"down()","37":"move(2,1)","39":"move(0.5,-1)","88":"emit()"};
     var dia, pos, bak, run;
+    var startTime = new Date() ;
+    var score = document.getElementsByClassName('score')[0] ;
     function start(){
         dia=tatris[~~(Math.random()*tatris.length)];
         bak=pos={fk:[],y:0,x:4,s:~~(Math.random()*4)};
         rotate(0);
     }
-    function over(){
+    function over(duration){
         document.onkeydown=null;
         clearInterval(run);
-        alert("GAME OVER");
+        alert("游戏结束,共用时" + duration/1000 + '秒');
     }
     function update(t){
         bak={fk:pos.fk.slice(0),y:pos.y,x:pos.x,s:pos.s};
@@ -69,6 +98,7 @@
                     map[i] = map[i] + pos.fk[3] ;
                     if(map[i] ===0xfff){
                         map.splice(i,1), map.unshift(0x801);
+                        score.innerHTML = ++number ;
                     }
                     break ;
                 }
@@ -84,17 +114,20 @@
         }
         update(is());
     }
+    var number = 0 ;
     function down(){
         ++pos.y;
         if(is()){
             for(var i=0; i<4 && pos.y+i<22; i++){
                 if((map[pos.y+i]|=pos.fk[i])==0xfff){
                     map.splice(pos.y+i,1), map.unshift(0x801);
+                    score.innerHTML = ++number ;
                 }
             }
 
             if(map[1]!=0x801) {
-                return over();
+                var endTime = new Date();
+                return over(endTime-startTime);
             }
             start();
         }
