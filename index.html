@@ -40,8 +40,8 @@
     '下' : 方块快速下降
     '左' : 方块左移
     '右' : 方块右移
-    'x' : 对于两个竖的方块:按一下减去一个堆积的方块
-          对于三个竖的方块:按一下加上一个堆积的方块
+    'x' : 程序添加了两个竖的方块:按一下减去一个堆积的方块
+          程序添加了三个竖的方块:按一下加上一个堆积的方块
 </p>
 <script>
     var map=eval("["+Array(23).join("0x801,")+"0xfff]");
@@ -98,7 +98,8 @@
                     map[i] = map[i] + pos.fk[3] ;
                     if(map[i] ===0xfff){
                         map.splice(i,1), map.unshift(0x801);
-                        score.innerHTML = ++number ;
+                        number = (++number)*100 ;
+                        score.innerHTML = number ;
                     }
                     break ;
                 }
@@ -121,7 +122,8 @@
             for(var i=0; i<4 && pos.y+i<22; i++){
                 if((map[pos.y+i]|=pos.fk[i])==0xfff){
                     map.splice(pos.y+i,1), map.unshift(0x801);
-                    score.innerHTML = ++number ;
+                    number = (++number)*100 ;
+                    score.innerHTML = number ;
                 }
             }
 
