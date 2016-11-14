@@ -10,19 +10,20 @@
             background:#000;
             color:#9f9;
             position: absolute;
-            top : 25px ;
             border:#999 20px ridge;
             text-shadow:2px 3px 1px #0f0 ;
             margin-left: 25%;
         }
         p{
             position: absolute;
+            padding: 20px ;
+
             top: 50px ;
             left: 650px ;
             width: 400px;
-            height: 150px;
+            height: 110px;
             border: 1px dashed red;
-            white-space: pre;
+
         }
         div#score{
             position: absolute;
@@ -36,12 +37,12 @@
 <div id="box"></div>
 <p>
     游戏帮助:
-    '上' : 方块旋转
-    '下' : 方块快速下降
-    '左' : 方块左移
-    '右' : 方块右移
-    'x' : 程序添加了两个竖的方块:按一下减去一个堆积的方块
-          程序添加了三个竖的方块:按一下加上一个堆积的方块
+    '上' &nbsp:&nbsp 方块旋转<br/>
+    '下'&nbsp : &nbsp方块快速下降<br/>
+    '左' &nbsp: &nbsp方块左移<br/>
+    '右' &nbsp: &nbsp方块右移<br/>
+    'x'&nbsp :&nbsp 程序添加了两个竖的方块:按一下减去一个堆积的方块<br/>
+          程序添加了三个竖的方块:按一下加上一个堆积的方块<br/>
 </p>
 <script>
     var map=eval("["+Array(23).join("0x801,")+"0xfff]");
@@ -98,8 +99,8 @@
                     map[i] = map[i] + pos.fk[3] ;
                     if(map[i] ===0xfff){
                         map.splice(i,1), map.unshift(0x801);
-                        number = (++number)*100 ;
-                        score.innerHTML = number ;
+                        var scoreNumber = (++number)*100 ;
+                        score.innerHTML = scoreNumber ;
                     }
                     break ;
                 }
@@ -122,8 +123,8 @@
             for(var i=0; i<4 && pos.y+i<22; i++){
                 if((map[pos.y+i]|=pos.fk[i])==0xfff){
                     map.splice(pos.y+i,1), map.unshift(0x801);
-                    number = (++number)*100 ;
-                    score.innerHTML = number ;
+                    var scoreNumber = (++number)*100 ;
+                    score.innerHTML = scoreNumber ;
                 }
             }
 
